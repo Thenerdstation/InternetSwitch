@@ -16,7 +16,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.Console;
 import java.net.URI;
 import java.net.URLEncoder;
-
+/*
+Created by Chase Roberts on January 10 2014
+ */
 
 public class MainActivity extends ActionBarActivity {
 
@@ -26,21 +28,24 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+    //on this code, where you see 0.0.0.0, you'll have to change it to your
+    //Arduino's IP address
     public void turnLEDON(View view)
     {
-        new Light().execute("http://10.0.0.15:8888/$1");
+        new Light().execute("http://0.0.0.0:8888/$1");
     }
     public void turnLEDOFF(View view)
     {
-        new Light().execute("http://10.0.0.15:8888/$2");
+        new Light().execute("http://0.0.0.0:8888/$2");
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -55,20 +60,24 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    //after 3.0, HttpPost has to be run in an AsyncTask
     private class Light extends AsyncTask<String, Void, Void>
     {
         protected Void doInBackground(String... url)
         {
+            //debug log
             Log.d("data", url[0]);
             try
             {
-            HttpClient httpclient = new DefaultHttpClient();
-            httpclient.execute(new HttpPost(url[0]));
+                //goes to the Arduino's address and sends the on or off signal
+                HttpClient httpclient = new DefaultHttpClient();
+                httpclient.execute(new HttpPost(url[0]));
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
+                //debug log
                 Log.d("exception", e.toString());
             }
-
             return null;
         }
     }
