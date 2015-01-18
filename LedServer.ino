@@ -26,8 +26,10 @@
 byte mac[] = { 
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
+//#!!
 //This can be manually changed, but I prefer to use DHCP
 IPAddress ip(0,0,0,0);
+//#!!
 
 //These two are only used when DHCP fails
 IPAddress gateway(192,168,1, 1);
